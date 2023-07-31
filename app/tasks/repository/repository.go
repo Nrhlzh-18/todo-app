@@ -8,7 +8,7 @@ import (
 
 type Repository interface {
 	GetAll(c echo.Context, db *gorm.DB) ([]models.MTasks, error)
-	// Create(c echo.Context, db *gorm.DB, data models.MTasks) (models.MTasks, error)
+	Create(c echo.Context, db *gorm.DB, data models.MTasks) (models.MTasks, error)
 	// Update(c echo.Context, db *gorm.DB, data models.MTasks) (models.MTasks, error)
 	// Delete(c echo.Context, db *gorm.DB, data models.MTasks) error
 }

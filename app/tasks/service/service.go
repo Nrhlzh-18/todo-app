@@ -7,7 +7,7 @@ import (
 
 type Service interface {
 	GetAll(c echo.Context) ([]tasks.TasksResponse, error)
-	// Create(c echo.Context, request tasks.TaskRequest) (tasks.TasksResponse, error)
+	Create(c echo.Context, request tasks.TaskRequest) (tasks.TasksResponse, error)
 	// Update(c echo.Context, request tasks.TaskRequest) (tasks.TasksResponse, error)
 	// Delete(c echo.Context, refId uint64) error
 }

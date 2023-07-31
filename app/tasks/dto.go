@@ -8,6 +8,7 @@ type TaskRequest struct {
 	DueDate     time.Time `json:"due_date" validate:"required"`
 	Priority    string    `json:"priority" validate:"required"`
 	Status      string    `json:"status" validate:"required"`
+	IDUser      int64    `json:"id_user" validate:"required"`
 }
 
 type TasksResponse struct {

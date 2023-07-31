@@ -25,4 +25,5 @@ func NewHandler(db *gorm.DB) *handler {
 
 func (h *handler) Route(g *echo.Group) {
 	g.GET("", h.Controller.GetAll)
+	g.POST("/create", h.Controller.Create)
 }

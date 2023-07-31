@@ -7,10 +7,14 @@ type MTasks struct {
 	Name        string    `json:"name" gorm:"type:varchar(255);not null"`
 	Description string    `json:"description" gorm:"type:text;null"`
 	DueDate     time.Time `json:"due_date" gorm:"type:datetime;"`
-	Priority    string    `json:"priority" gorm:"type:char"`
-	Status      string    `json:"status" gorm:"type:char"`
+	Priority    string    `json:"priority" gorm:"type:varchar(225);default:green"`
+	Status      string    `json:"status" gorm:"type:varchar(225)"`
+	CreatedBy   int64     `json:"created_by" gorm:"index;not null"`
+	UpdatedBy   int64     `json:"updated_by" gorm:"index;null"`
 	Created_at  time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
 	Updated_at  time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"`
+
+	User MUser `json:"user" gorm:"foreignkey:CreatedBy;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 type TasksTag struct {

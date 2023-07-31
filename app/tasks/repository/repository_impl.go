@@ -21,3 +21,11 @@ func (r *RepositoryImpl) GetAll(c echo.Context, db *gorm.DB) ([]models.MTasks, e
 
 	return list_tasks, nil
 }
+
+func (r *RepositoryImpl) Create(c echo.Context, db *gorm.DB, data models.MTasks) (models.MTasks, error) {
+	if err := db.Create(&data).Error; err != nil {
+		return data, err
+	}
+
+	return data, nil
+}
