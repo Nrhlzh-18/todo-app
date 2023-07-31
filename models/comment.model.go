@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type Comments struct {
+type MComments struct {
 	ID         int64     `json:"id" gorm:"primaryKey;autoIncrement"`
 	IDTasks    int64     `json:"id_tasks" gorm:"index"`
 	IDSchedule int64     `json:"id_schedule" gorm:"index"`
@@ -12,8 +12,8 @@ type Comments struct {
 	CreatedAt  time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
 	UpdatedAt  time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"`
 
-	Tasks    Tasks     `json:"tasks" gorm:"foreignkey:IDTasks;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Schedule Schedule  `json:"schedule" gorm:"foreignkey:IDSchedule;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	User     User      `json:"user" gorm:"foreignkey:IDUser;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Parent   *Comments `json:"parent" gorm:"foreignkey:IDParent;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Tasks    MTasks     `json:"tasks" gorm:"foreignkey:IDTasks;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Schedule MSchedule  `json:"schedule" gorm:"foreignkey:IDSchedule;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	User     MUser      `json:"user" gorm:"foreignkey:IDUser;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Parent   *MComments `json:"parent" gorm:"foreignkey:IDParent;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }

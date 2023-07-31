@@ -1,27 +1,17 @@
 package routes
 
 import (
+	tasks "github.com/Nrhlzh-18/todo-app/app/tasks/handler"
 	"github.com/Nrhlzh-18/todo-app/exception"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
-type Routes struct {
-	Echo *echo.Echo
-	DB   *gorm.DB
-}
-
-func NewRoutes(e *echo.Echo, db *gorm.DB) *Routes {
-	return &Routes{
-		Echo: e,
-		DB:   db,
-	}
-}
-
-func (r *Routes) Register() {
+func NewRoutes(e *echo.Echo, db *gorm.DB) {
 	// Routes
-	_ = r.Echo.Group("/api/v1")
+	g := e.Group("/api/v1")
 
+	tasks.NewHandler(db).Route(g.Group("/tasks"))
 
-	r.Echo.HTTPErrorHandler = exception.NewErrorHandler
+	e.HTTPErrorHandler = exception.NewErrorHandler
 }

@@ -1,4 +1,4 @@
-package todoapp
+package main
 
 import (
 	"github.com/Nrhlzh-18/todo-app/config"

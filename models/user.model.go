@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type User struct {
+type MUser struct {
 	ID           int64     `json:"id" gorm:"primaryKey;autoIncrement"`
 	Name         string    `json:"name" gorm:"type:varchar(225);not null"`
 	Email        string    `json:"email" gorm:"unique;type:varchar(225);not null;"`
@@ -13,10 +13,10 @@ type User struct {
 	Updated_at   time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"`
 }
 
-type UserRole struct {
+type MUserRole struct {
 	ID     int64  `json:"id" gorm:"primaryKey;autoIncrement"`
 	IDUser int64  `json:"id_user" gorm:"index"`
 	Name   string `json:"name" gorm:"type:varchar(225);not null"`
 
-	User User `json:"user" gorm:"foreignkey:IDUser;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	User MUser `json:"user" gorm:"foreignkey:IDUser;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
