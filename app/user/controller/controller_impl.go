@@ -3,8 +3,8 @@ package controller
 import (
 	"net/http"
 
-	"github.com/Nrhlzh-18/todo-app/app/tasks"
-	"github.com/Nrhlzh-18/todo-app/app/tasks/service"
+	"github.com/Nrhlzh-18/todo-app/app/user"
+	"github.com/Nrhlzh-18/todo-app/app/user/service"
 	res "github.com/Nrhlzh-18/todo-app/helpers/response"
 	"github.com/labstack/echo/v4"
 )
@@ -25,7 +25,7 @@ func (co *ControllerImpl) GetAll(c echo.Context) error {
 		return res.ErrorResponse(c, err)
 	}
 
-	return res.SuccessResponse(c, http.StatusOK, "success get all tasks", result)
+	return res.SuccessResponse(c, http.StatusOK, "success get all users", result)
 }
 
 func (co *ControllerImpl) GetById(c echo.Context) error {
@@ -34,29 +34,11 @@ func (co *ControllerImpl) GetById(c echo.Context) error {
 		return res.ErrorResponse(c, err)
 	}
 
-	return res.SuccessResponse(c, http.StatusOK, "success get by id tasks", result)
-}
-
-func (co *ControllerImpl) GetByProject(c echo.Context) error {
-	result, err := co.Service.GetAll(c)
-	if err != nil {
-		return res.ErrorResponse(c, err)
-	}
-
-	return res.SuccessResponse(c, http.StatusOK, "success get by project tasks", result)
-}
-
-func (co *ControllerImpl) GetByUser(c echo.Context) error {
-	result, err := co.Service.GetAll(c)
-	if err != nil {
-		return res.ErrorResponse(c, err)
-	}
-
-	return res.SuccessResponse(c, http.StatusOK, "success get by user tasks", result)
+	return res.SuccessResponse(c, http.StatusOK, "success get id user", result)
 }
 
 func (co *ControllerImpl) Create(c echo.Context) error {
-	var data tasks.TaskRequest
+	var data user.UserRequest
 	err := c.Bind(&data)
 	if err != nil {
 		return res.ErrorResponse(c, res.BuildError(res.ErrServerError, err))
@@ -67,11 +49,11 @@ func (co *ControllerImpl) Create(c echo.Context) error {
 		return res.ErrorResponse(c, err)
 	}
 
-	return res.SuccessResponse(c, http.StatusCreated, "success menambahkan tasks", result)
+	return res.SuccessResponse(c, http.StatusCreated, "success menambahkan user", result)
 }
 
 func (co *ControllerImpl) Update(c echo.Context) error {
-	var data tasks.TaskRequest
+	var data user.UserRequest
 	err := c.Bind(&data)
 	if err != nil {
 		return res.ErrorResponse(c, res.BuildError(res.ErrServerError, err))
@@ -84,7 +66,7 @@ func (co *ControllerImpl) Update(c echo.Context) error {
 		return res.ErrorResponse(c, err)
 	}
 
-	return res.SuccessResponse(c, http.StatusOK, "success memperbarui tasks", result)
+	return res.SuccessResponse(c, http.StatusOK, "success memperbarui user", result)
 }
 
 func (co *ControllerImpl) Delete(c echo.Context) error {
@@ -95,5 +77,5 @@ func (co *ControllerImpl) Delete(c echo.Context) error {
 		return res.ErrorResponse(c, err)
 	}
 
-	return res.SuccessResponse(c, http.StatusOK, "success menghapus tasks", nil)
+	return res.SuccessResponse(c, http.StatusOK, "success menghapus user", nil)
 }

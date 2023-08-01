@@ -27,7 +27,7 @@ func (r *RepositoryImpl) GetAll(c echo.Context, db *gorm.DB) ([]user.UserRespons
 	return taskList, nil
 }
 
-func (r *RepositoryImpl) GetById(c echo.Context, db *gorm.DB, id int64) (user.UserResponse, error) {
+func (r *RepositoryImpl) GetById(c echo.Context, db *gorm.DB, id string) (user.UserResponse, error) {
 	var user user.UserResponse
 	if err := db.Where("id = ?", id).First(&user).Error; err != nil {
 		return user, err
@@ -67,7 +67,7 @@ func (r *RepositoryImpl) Update(c echo.Context, db *gorm.DB, data models.MUser) 
 	return existingData, nil
 }
 
-func (r *RepositoryImpl) Delete(c echo.Context, db *gorm.DB, id int64) error {
+func (r *RepositoryImpl) Delete(c echo.Context, db *gorm.DB, id string) error {
 
 	var data models.MUser
 	if err := db.Where("id = ?", id).First(&data).Error; err != nil {

@@ -20,3 +20,7 @@ type UserLogin struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
+
+type UserCreateResponse struct {
+	LastInsertID string `json:"last_insert_id"`
+}

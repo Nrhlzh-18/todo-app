@@ -9,9 +9,9 @@ import (
 
 type Repository interface {
 	GetAll(c echo.Context, db *gorm.DB) ([]user.UserResponse, error)
-	GetById(c echo.Context, db *gorm.DB, id int64) (user.UserResponse, error)
+	GetById(c echo.Context, db *gorm.DB, id string) (user.UserResponse, error)
 	GetByUsernamePass(c echo.Context, db *gorm.DB, user *user.UserLogin) (models.MUser, error)
 	Create(c echo.Context, db *gorm.DB, data models.MUser) (models.MUser, error)
 	Update(c echo.Context, db *gorm.DB, data models.MUser) (models.MUser, error)
-	Delete(c echo.Context, db *gorm.DB, id int64) error
+	Delete(c echo.Context, db *gorm.DB, id string) error
 }
