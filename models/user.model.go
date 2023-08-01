@@ -9,11 +9,19 @@ type MUser struct {
 	Username     string    `json:"username" gorm:"unique;type:varchar(225);not null"`
 	Password     string    `json:"password" gorm:"type:varchar(225);not null"`
 	PasswordHash string    `gorm:"unique;type:varchar(225);not null;size:255"`
-	Created_at   time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
-	Updated_at   time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"`
+	CreatedAt    time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
+	UpdatedAt    time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"`
 }
 
 type MUserRole struct {
+	ID     int64  `json:"id" gorm:"primaryKey;autoIncrement"`
+	IDUser int64  `json:"id_user" gorm:"index"`
+	Name   string `json:"name" gorm:"type:varchar(225);not null"`
+
+	User MUser `json:"user" gorm:"foreignkey:IDUser;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+}
+
+type MUserProject struct {
 	ID     int64  `json:"id" gorm:"primaryKey;autoIncrement"`
 	IDUser int64  `json:"id_user" gorm:"index"`
 	Name   string `json:"name" gorm:"type:varchar(225);not null"`

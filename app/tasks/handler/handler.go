@@ -25,5 +25,10 @@ func NewHandler(db *gorm.DB) *handler {
 
 func (h *handler) Route(g *echo.Group) {
 	g.GET("", h.Controller.GetAll)
+	g.GET("/:id", h.Controller.GetById)
+	g.GET("/user/:user", h.Controller.GetByUser)
+	g.GET("/project/:project", h.Controller.GetByProject)
 	g.POST("/create", h.Controller.Create)
+	g.PUT("/update/:id", h.Controller.Update)
+	g.DELETE("/delete/:id", h.Controller.Delete)
 }
