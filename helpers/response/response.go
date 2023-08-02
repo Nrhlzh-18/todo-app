@@ -14,6 +14,14 @@ type Response struct {
 	Data    interface{} `json:"data"`
 }
 
+type ResponseLastID struct {
+	LastInsertID uint64 `json:"last_insert_id"`
+}
+
+type ResponseRowsAffected struct {
+	RowsAffected uint64 `json:"rows_affected"`
+}
+
 type ErrorConstant struct {
 	Response     Response
 	Code         int

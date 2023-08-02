@@ -2,7 +2,7 @@ package auth
 
 import "github.com/Nrhlzh-18/todo-app/helpers"
 
-type GoogleOauthToken struct {
+type RegisterRequest struct {
 	Access_token string
 	Id_token     string
 }

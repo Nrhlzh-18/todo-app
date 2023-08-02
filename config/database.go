@@ -65,9 +65,15 @@ func (c *credential) getMysql() *gorm.DB {
 func migrate(db *gorm.DB) {
 	err := db.AutoMigrate(
 		&models.MTasks{},
+		&models.UserTeam{},
 		&models.MSchedule{},
 		&models.MUser{},
-		&models.MUserRole{},
+		&models.UserRole{},
+		&models.MRole{},
+		&models.MProject{},
+		&models.UserProject{},
+		&models.MTeam{},
+		&models.TasksTag{},
 	)
 	if err != nil {
 		fmt.Println("Error while migrating tables:", err)

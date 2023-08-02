@@ -43,9 +43,9 @@ func (jd JsonDate) MarshalJSON() ([]byte, error) {
 	return []byte(st), nil
 }
 
-type JsonTime time.Time
+type JsonDateTime time.Time
 
-func (jt *JsonTime) UnmarshalJSON(data []byte) error {
+func (jt *JsonDateTime) UnmarshalJSON(data []byte) error {
 	if string(data) == "null" {
 		return nil
 	}
@@ -55,11 +55,37 @@ func (jt *JsonTime) UnmarshalJSON(data []byte) error {
 	}
 	data = data[len(`"`) : len(data)-len(`"`)]
 	t, err := time.ParseInLocation("02/01/2006 15:04:05", string(data), time.Local)
+	*jt = JsonDateTime(t)
+	return err
+}
+
+func (jt JsonDateTime) MarshalJSON() ([]byte, error) {
+	st := fmt.Sprintf("\"%s\"", time.Time(jt).Format("02/01/2006 15:04:05"))
+	return []byte(st), nil
+}
+
+type JsonTime time.Time
+
+func (jt *JsonTime) UnmarshalJSON(data []byte) error {
+	if string(data) == "null" {
+		return nil
+	}
+	// TODO: Properly unescape a JSON string.
+	if len(data) < 2 || data[0] != '"' || data[len(data)-1] != '"' {
+		return errors.New("JsonTime.UnmarshalJSON: input is not a JSON string")
+	}
+	data = data[len(`"`) : len(data)-len(`"`)]
+	t, err := time.Parse("15:04:05", string(data))
 	*jt = JsonTime(t)
 	return err
 }
 
 func (jt JsonTime) MarshalJSON() ([]byte, error) {
-	st := fmt.Sprintf("\"%s\"", time.Time(jt).Format("02/01/2006 15:04:05"))
+	st := fmt.Sprintf("\"%s\"", time.Time(jt).Format("15:04:05"))
 	return []byte(st), nil
+}
+
+// Version of time.Time
+func (jt JsonTime) Time() time.Time {
+	return time.Time(jt)
 }
