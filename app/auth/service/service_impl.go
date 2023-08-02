@@ -34,21 +34,23 @@ func NewService(
 	}
 }
 
-func (s *ServiceImpl) CheckLogin(c echo.Context, user user.UserLogin) error {
+func (s *ServiceImpl) CheckLogin(c echo.Context, user user.UserLogin) (bool, error) {
 
+	var password string
+	password = user.Password
 	result, err := s.Repository.GetByUsernamePass(c, s.DB, &user)
 	if err != nil {
-		return res.BuildError(res.ErrServerError, err)
+		return false, res.BuildError(res.ErrServerError, err)
 	}
 
 	var pwd string
 	pwd = result.PasswordHash
 
-	match, err := helpers.CheckPasswordHash(result.Password, pwd)
+	match, err := helpers.CheckPasswordHash(password, pwd)
 	if !match {
 		fmt.Println("Hash and Password doesn't match.")
-		return err
+		return false, nil
 	}
 
-	return nil
+	return true, nil
 }

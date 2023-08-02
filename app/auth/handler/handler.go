@@ -27,6 +27,4 @@ func NewHandler(db *gorm.DB) *handler {
 
 func (h *handler) Route(g *echo.Group) {
 	g.POST("/login", h.Controller.CheckLogin)
-	g.POST("/register", h.Controller.CheckLogin)
-	g.POST("/", h.Controller.CheckLogin)
 }

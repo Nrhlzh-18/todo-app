@@ -21,11 +21,9 @@ type MTasks struct {
 type TasksTag struct {
 	ID         int64     `json:"id" gorm:"primaryKey;autoIncrement"`
 	IDTasks    int64     `json:"id_tasks" gorm:"index"`
-	IDRole     int64     `json:"id_role" gorm:"type:integer;default:0"`
-	IDUser     int64     `json:"id_user" gorm:"type:integer;default:0"`
-	IDProject  int64     `json:"id_project" gorm:"type:integer;default:0"`
+	IDUser     int64     `json:"id_user" gorm:"foreignKey;null"`
+	IDProject  int64     `json:"id_project" gorm:"foreignKey;null"`
+	IDTeam     int64     `json:"id_team" gorm:"foreignKey;null"`
 	Created_at time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
 	Updated_at time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"`
-
-	Tasks MTasks `json:"tasks" gorm:"foreignkey:IDTasks;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }

@@ -38,7 +38,8 @@ func (co *ControllerImpl) GetById(c echo.Context) error {
 }
 
 func (co *ControllerImpl) GetByProject(c echo.Context) error {
-	result, err := co.Service.GetAll(c)
+	projectID := c.Param("id")
+	result, err := co.Service.GetByProject(c, projectID)
 	if err != nil {
 		return res.ErrorResponse(c, err)
 	}
@@ -46,8 +47,19 @@ func (co *ControllerImpl) GetByProject(c echo.Context) error {
 	return res.SuccessResponse(c, http.StatusOK, "success get by project tasks", result)
 }
 
+func (co *ControllerImpl) GetByTeam(c echo.Context) error {
+	teamID := c.Param("id")
+	result, err := co.Service.GetByTeam(c, teamID)
+	if err != nil {
+		return res.ErrorResponse(c, err)
+	}
+
+	return res.SuccessResponse(c, http.StatusOK, "success get by user tasks", result)
+}
+
 func (co *ControllerImpl) GetByUser(c echo.Context) error {
-	result, err := co.Service.GetAll(c)
+	userID := c.Param("id")
+	result, err := co.Service.GetByUser(c, userID)
 	if err != nil {
 		return res.ErrorResponse(c, err)
 	}

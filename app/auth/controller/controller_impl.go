@@ -26,9 +26,13 @@ func (co *ControllerImpl) CheckLogin(c echo.Context) error {
 		return res.ErrorResponse(c, res.BuildError(res.ErrServerError, err))
 	}
 
-	err := co.Service.CheckLogin(c, data)
+	hash, err := co.Service.CheckLogin(c, data)
 	if err != nil {
 		return res.ErrorResponse(c, err)
+	}
+
+	if hash != true {
+		return res.SuccessResponse(c, http.StatusNotFound, "Username and Password not match", nil)
 	}
 
 	return res.SuccessResponse(c, http.StatusOK, "berhasil login", nil)
