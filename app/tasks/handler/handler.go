@@ -32,7 +32,7 @@ func (h *handler) Route(g *echo.Group) {
 	g.GET("/team/:id", h.Controller.GetByTeam)
 	g.GET("/project/:id", h.Controller.GetByProject)
 	g.POST("/", h.Controller.Create)
-	g.POST("/tags", h.Controller.Create)
+	g.POST("/tag", h.Controller.CreateTags)
 	g.PUT("/:id", h.Controller.Update)
 	g.DELETE("/:id", h.Controller.Delete)
 }
