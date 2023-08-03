@@ -19,7 +19,7 @@ import (
 
 type ServiceImpl struct {
 	Repository repository.Repository
-	Repo_tag   repo_tag.Repository
+	RepoTag   repo_tag.Repository
 	DB         *gorm.DB
 	Validate   *validator.Validate
 }
@@ -32,7 +32,7 @@ func NewService(
 ) Service {
 	return &ServiceImpl{
 		Repository: repository,
-		Repo_tag:   repo_taskstag,
+		RepoTag:   repo_taskstag,
 		DB:         db,
 		Validate:   validate,
 	}
@@ -57,7 +57,7 @@ func (s *ServiceImpl) GetById(c echo.Context, id string) (tasks.TasksResponse, e
 }
 
 func (s *ServiceImpl) GetByTeam(c echo.Context, teamID string) ([]taskstag.TasksTagTeam, error) {
-	result, err := s.Repo_tag.GetByTeam(c, s.DB, teamID)
+	result, err := s.RepoTag.GetByTeam(c, s.DB, teamID)
 	if err != nil {
 		return result, res.BuildError(res.ErrServerError, err)
 	}
@@ -66,7 +66,7 @@ func (s *ServiceImpl) GetByTeam(c echo.Context, teamID string) ([]taskstag.Tasks
 }
 
 func (s *ServiceImpl) GetByProject(c echo.Context, projectID string) ([]taskstag.TasksTagProject, error) {
-	result, err := s.Repo_tag.GetByProject(c, s.DB, projectID)
+	result, err := s.RepoTag.GetByProject(c, s.DB, projectID)
 	if err != nil {
 		return result, res.BuildError(res.ErrServerError, err)
 	}
@@ -75,7 +75,7 @@ func (s *ServiceImpl) GetByProject(c echo.Context, projectID string) ([]taskstag
 }
 
 func (s *ServiceImpl) GetByUser(c echo.Context, userID string) ([]taskstag.TasksTagUser, error) {
-	result, err := s.Repo_tag.GetByUser(c, s.DB, userID)
+	result, err := s.RepoTag.GetByUser(c, s.DB, userID)
 	if err != nil {
 		return result, res.BuildError(res.ErrServerError, err)
 	}
@@ -147,4 +147,26 @@ func (s *ServiceImpl) Delete(c echo.Context, id string) error {
 	}
 
 	return nil
+}
+
+func (s *ServiceImpl) CreateTags(c echo.Context, request tasks.TaksTagRequest) (int64, error) {
+	err := s.Validate.Struct(request)
+	if err != nil {
+		return 0, res.BuildError(res.ErrUnprocessableEntity, err)
+	}
+
+	payload := models.TasksTag{
+		IDTasks:   request.IDTasks,
+		IDUser:    request.IDUser,
+		IDTeam:    request.IDTeam,
+		IDProject: request.IDProject,
+		CreatedAt: s.DB.NowFunc(),
+	}
+
+	id, err := s.RepoTag.Store(c, s.DB, payload)
+	if err != nil {
+		return id, res.BuildError(res.ErrServerError, err)
+	}
+
+	return id, nil
 }

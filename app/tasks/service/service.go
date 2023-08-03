@@ -15,4 +15,5 @@ type Service interface {
 	Create(c echo.Context, request tasks.TaskRequest) (tasks.TasksCreateResponse, error)
 	Update(c echo.Context, id string, request tasks.TaskRequest) (tasks.TasksResponse, error)
 	Delete(c echo.Context, id string) error
+	CreateTags(c echo.Context, tags tasks.TaksTagRequest) (int64, error)
 }

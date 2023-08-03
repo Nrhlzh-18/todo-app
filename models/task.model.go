@@ -11,8 +11,8 @@ type MTasks struct {
 	Status      string    `json:"status" gorm:"type:varchar(225)"`
 	CreatedBy   int64     `json:"created_by" gorm:"index;not null"`
 	UpdatedBy   int64     `json:"updated_by" gorm:"index;null"`
-	Created_at  time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
-	Updated_at  time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"`
+	CreatedAt  time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
+	UpdatedAt  time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"`
 
 	UserCreated MUser `json:"user_created" gorm:"foreignkey:CreatedBy;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	UserUpdated MUser `json:"user_updated" gorm:"foreignkey:UpdatedBy;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
@@ -24,6 +24,6 @@ type TasksTag struct {
 	IDUser     int64     `json:"id_user" gorm:"foreignKey;null"`
 	IDProject  int64     `json:"id_project" gorm:"foreignKey;null"`
 	IDTeam     int64     `json:"id_team" gorm:"foreignKey;null"`
-	Created_at time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
-	Updated_at time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"`
+	CreatedAt time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"`
 }

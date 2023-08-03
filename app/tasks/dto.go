@@ -15,12 +15,12 @@ type TaskRequest struct {
 }
 
 type TasksResponse struct {
-	ID          uint64               `json:"id"`
-	Name        string               `json:"name"`
-	Description string               `json:"description"`
-	DueDate     helpers.JsonDate     `json:"due_date"`
-	Priority    string               `json:"priority"`
-	Status      string               `json:"status"`
+	ID          uint64           `json:"id"`
+	Name        string           `json:"name"`
+	Description string           `json:"description"`
+	DueDate     helpers.JsonDate `json:"due_date"`
+	Priority    string           `json:"priority"`
+	Status      string           `json:"status"`
 }
 
 func (TasksResponse) TableName() string {
@@ -29,4 +29,11 @@ func (TasksResponse) TableName() string {
 
 type TasksCreateResponse struct {
 	LastInsertID uint64 `json:"last_insert_id"`
+}
+
+type TaksTagRequest struct {
+	IDTasks   int64 `json:"id_tasks" validate:"required"`
+	IDUser    int64 `json:"id_user" validate:"required"`
+	IDProject int64 `json:"id_project"`
+	IDTeam    int64 `json:"id_team"`
 }

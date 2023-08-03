@@ -109,3 +109,18 @@ func (co *ControllerImpl) Delete(c echo.Context) error {
 
 	return res.SuccessResponse(c, http.StatusOK, "success menghapus tasks", nil)
 }
+
+func (co *ControllerImpl) CreateTags(c echo.Context) error {
+	var data tasks.TaksTagRequest
+	err := c.Bind(&data)
+	if err != nil {
+		return res.ErrorResponse(c, res.BuildError(res.ErrServerError, err))
+	}
+
+	result, err := co.Service.CreateTags(c, data)
+	if err != nil {
+		return res.ErrorResponse(c, err)
+	}
+
+	return res.SuccessResponse(c, http.StatusCreated, "success menambahkan tasks", result)
+}
