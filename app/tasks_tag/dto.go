@@ -33,3 +33,4 @@ type TasksTagUser struct {
 func (TasksTagUser) TableName() string {
 	return "tasks_tag"
 }
+

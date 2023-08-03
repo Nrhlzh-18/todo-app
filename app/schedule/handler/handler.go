@@ -7,7 +7,5 @@ import (
 type Handler struct {
 }
 
-
-
 func (h *Handler) Route(c *echo.Group) {
 }

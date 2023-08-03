@@ -25,4 +25,3 @@ type ScheduleResponse struct {
 	CreatedAt   helpers.JsonDateTime `json:"created_at"`
 	UpdatedAt   helpers.JsonDateTime `json:"updated_at"`
 }
-
