@@ -34,5 +34,5 @@ func (h *handler) Route(g *echo.Group) {
 	g.POST("/", h.Controller.Create)
 	g.POST("/tags", h.Controller.Create)
 	g.PUT("/:id", h.Controller.Update)
-	g.DELETE("/delete/:id", h.Controller.Delete)
+	g.DELETE("/:id", h.Controller.Delete)
 }
