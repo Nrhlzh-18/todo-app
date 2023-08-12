@@ -1,6 +1,9 @@
 package repository
 
 import (
+	"fmt"
+	"time"
+
 	"github.com/Nrhlzh-18/todo-app/models"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -31,15 +34,29 @@ func (r *RepositoryImpl) GetById(c echo.Context, db *gorm.DB, id string) (models
 	return schedule, nil
 }
 
-func (r *RepositoryImpl) Store(c echo.Context, db *gorm.DB, data models.MSchedule) (int64, error) {
-	if err := db.Create(&data).Error; err != nil {
-		return 0, err
+func (r *RepositoryImpl) GetByDate(c echo.Context, db *gorm.DB) ([]models.MSchedule, error) {
+	var schedules []models.MSchedule
+	tomorrow := time.Now().Add(24 * time.Hour).Truncate(24 * time.Hour)
+
+	if err := db.Find(&schedules, "date >= ? AND date < ?", tomorrow, tomorrow.Add(24*time.Hour)).Error; err != nil {
+		fmt.Println("Error fetching schedules:", err)
+	} else {
+		fmt.Println("Schedules for tomorrow:", schedules)
 	}
 
-	return data.ID, nil
+	return schedules, nil
 }
 
-func (r *RepositoryImpl) Update(c echo.Context, db *gorm.DB, data models.MSchedule) (int64, error) {
+func (r *RepositoryImpl) Store(c echo.Context, db *gorm.DB, data *models.MSchedule) error {
+	fmt.Println(data)
+	if err := db.Create(&data).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *RepositoryImpl) Update(c echo.Context, db *gorm.DB, data *models.MSchedule) (int64, error) {
 	result := db.Model(&data).Updates(data)
 	if result.Error != nil {
 		return 0, result.Error

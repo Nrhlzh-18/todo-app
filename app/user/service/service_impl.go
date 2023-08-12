@@ -49,24 +49,24 @@ func (s *ServiceImpl) GetById(c echo.Context, id string) (user.UserResponse, err
 
 func (s *ServiceImpl) Create(c echo.Context, request user.UserRequest) (user.UserCreateResponse, error) {
 	var response user.UserCreateResponse
-	err := s.Validate.Struct(request)
+	err := s.Validate.Struct(&request)
 	if err != nil {
 		return response, res.BuildError(res.ErrServerError, err)
 	}
 
-	hashpass, err := helpers.HashPassword(request.Password)
+	hashpass, err := helpers.HashPassword(*request.Password)
 	if err != nil {
 		return response, res.BuildError(res.ErrServerError, err)
 	}
-	payload := models.MUser{
+	payload := &models.MUser{
 		Name:         request.Name,
 		Email:        request.Email,
 		Username:     request.Username,
 		Password:     request.Password,
-		PasswordHash: hashpass,
+		PasswordHash: &hashpass,
 	}
 
-	_, err = s.Repository.Create(c, s.DB, payload)
+	_, err = s.Repository.Create(c, s.DB, *payload)
 	if err != nil {
 		return response, res.BuildError(res.ErrServerError, err)
 	}
@@ -76,7 +76,7 @@ func (s *ServiceImpl) Create(c echo.Context, request user.UserRequest) (user.Use
 
 func (s *ServiceImpl) Update(c echo.Context, id string, request user.UserRequest) (user.UserResponse, error) {
 	var response user.UserResponse
-	err := s.Validate.Struct(request)
+	err := s.Validate.Struct(&request)
 	if err != nil {
 		return response, res.BuildError(res.ErrUnprocessableEntity, err)
 	}
@@ -86,21 +86,21 @@ func (s *ServiceImpl) Update(c echo.Context, id string, request user.UserRequest
 		return response, res.BuildError(res.ErrUnprocessableEntity, err)
 	}
 
-	hashpass, err := helpers.HashPassword(request.Password)
+	hashpass, err := helpers.HashPassword(*request.Password)
 	if err != nil {
 		return response, res.BuildError(res.ErrServerError, err)
 	}
 
-	payload := models.MUser{
-		ID:           indInt,
+	payload := &models.MUser{
+		ID:           &indInt,
 		Name:         request.Name,
 		Email:        request.Email,
 		Username:     request.Username,
 		Password:     request.Password,
-		PasswordHash: hashpass,
+		PasswordHash: &hashpass,
 	}
 
-	_, err = s.Repository.Update(c, s.DB, payload)
+	_, err = s.Repository.Update(c, s.DB, *payload)
 	if err != nil {
 		return response, res.BuildError(res.ErrServerError, err)
 	}

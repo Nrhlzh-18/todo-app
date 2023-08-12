@@ -29,8 +29,8 @@ func (co *ControllerImpl) GetAll(c echo.Context) error {
 }
 
 func (co *ControllerImpl) GetById(c echo.Context) error {
-	id := c.Param("id");
-	
+	id := c.Param("id")
+
 	result, err := co.Service.GetById(c, id)
 	if err != nil {
 		return res.ErrorResponse(c, err)

@@ -18,7 +18,7 @@ func NewController(service service.Service) Controller {
 		Service: service,
 	}
 }
-
+	
 func (co *ControllerImpl) CheckLogin(c echo.Context) error {
 	var data user.UserLogin
 
@@ -26,14 +26,13 @@ func (co *ControllerImpl) CheckLogin(c echo.Context) error {
 		return res.ErrorResponse(c, res.BuildError(res.ErrServerError, err))
 	}
 
-	hash, err := co.Service.CheckLogin(c, data)
+	token, err := co.Service.CheckLogin(c, data)
+	if err == &res.ErrNotFound {
+		return res.SuccessResponse(c, http.StatusNotFound, "Username and Password not match", nil)
+	}
 	if err != nil {
 		return res.ErrorResponse(c, err)
 	}
 
-	if hash != true {
-		return res.SuccessResponse(c, http.StatusNotFound, "Username and Password not match", nil)
-	}
-
-	return res.SuccessResponse(c, http.StatusOK, "berhasil login", nil)
+	return res.SuccessResponse(c, http.StatusOK, "berhasil login", token)
 }

@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"fmt"
-
 	"github.com/Nrhlzh-18/todo-app/app/user"
 	"github.com/Nrhlzh-18/todo-app/models"
 	"github.com/labstack/echo/v4"
@@ -22,8 +20,6 @@ func (r *RepositoryImpl) GetAll(c echo.Context, db *gorm.DB) ([]user.UserRespons
 		return taskList, err
 	}
 
-	fmt.Println(taskList)
-
 	return taskList, nil
 }
 
@@ -36,7 +32,7 @@ func (r *RepositoryImpl) GetById(c echo.Context, db *gorm.DB, id string) (user.U
 	return user, nil
 }
 
-func (r *RepositoryImpl) GetByUsernamePass(c echo.Context, db *gorm.DB, user *user.UserLogin) (models.MUser, error) {
+func (r *RepositoryImpl) GetByUsernamePass(c echo.Context, db *gorm.DB, user user.UserLogin) (models.MUser, error) {
 	var users models.MUser
 	if err := db.Where("username = ?", user.Username).First(&users).Error; err != nil {
 		return users, err

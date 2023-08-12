@@ -19,7 +19,7 @@ import (
 
 type ServiceImpl struct {
 	Repository repository.Repository
-	RepoTag   repo_tag.Repository
+	RepoTag    repo_tag.Repository
 	DB         *gorm.DB
 	Validate   *validator.Validate
 }
@@ -32,7 +32,7 @@ func NewService(
 ) Service {
 	return &ServiceImpl{
 		Repository: repository,
-		RepoTag:   repo_taskstag,
+		RepoTag:    repo_taskstag,
 		DB:         db,
 		Validate:   validate,
 	}
@@ -85,27 +85,26 @@ func (s *ServiceImpl) GetByUser(c echo.Context, userID string) ([]taskstag.Tasks
 
 func (s *ServiceImpl) Create(c echo.Context, request tasks.TaskRequest) (tasks.TasksCreateResponse, error) {
 	var response tasks.TasksCreateResponse
-	err := s.Validate.Struct(request)
+	err := s.Validate.Struct(&request)
 	if err != nil {
 		return response, res.BuildError(res.ErrUnprocessableEntity, err)
 	}
 
-	payload := models.MTasks{
+	user := "1"
+
+	payload := &models.MTasks{
 		Name:        request.Name,
 		Description: request.Description,
-		DueDate:     time.Time(request.DueDate),
+		DueDate:     (*time.Time)(&request.DueDate),
 		Priority:    request.Priority,
 		Status:      request.Status,
-		CreatedBy:   1,
-		UpdatedBy:   1,
+		CreatedBy:   &user,
 	}
 
-	data, err := s.Repository.Create(c, s.DB, payload)
+	_, err = s.Repository.Create(c, s.DB, *payload)
 	if err != nil {
 		return response, res.BuildError(res.ErrServerError, err)
 	}
-
-	response.LastInsertID = uint64(data.ID)
 
 	return response, nil
 }
@@ -122,14 +121,16 @@ func (s *ServiceImpl) Update(c echo.Context, id string, request tasks.TaskReques
 		return response, res.BuildError(res.ErrUnprocessableEntity, err)
 	}
 
+	updateBy := "1"
+
 	payload := models.MTasks{
-		ID:          indInt,
+		ID:          &indInt,
 		Name:        request.Name,
 		Description: request.Description,
-		DueDate:     time.Time(request.DueDate),
+		DueDate:     (*time.Time)(&request.DueDate),
 		Priority:    request.Priority,
 		Status:      request.Status,
-		UpdatedBy:   1,
+		UpdatedBy:   &updateBy,
 	}
 
 	_, err = s.Repository.Update(c, s.DB, payload)
@@ -138,6 +139,26 @@ func (s *ServiceImpl) Update(c echo.Context, id string, request tasks.TaskReques
 	}
 
 	return response, nil
+}
+
+func (s *ServiceImpl) UpdateStatus(c echo.Context, status, id string) error {
+
+	err := s.Repository.ChangeStatus(c, s.DB, status, id)
+	if err != nil {
+		return res.BuildError(res.ErrServerError, err)
+	}
+
+	return nil
+}
+
+func (s *ServiceImpl) UpdatePriority(c echo.Context, priority, id string) error {
+
+	err := s.Repository.ChangePriority(c, s.DB, priority, id)
+	if err != nil {
+		return res.BuildError(res.ErrServerError, err)
+	}
+
+	return nil
 }
 
 func (s *ServiceImpl) Delete(c echo.Context, id string) error {
@@ -155,12 +176,14 @@ func (s *ServiceImpl) CreateTags(c echo.Context, request tasks.TaksTagRequest) (
 		return 0, res.BuildError(res.ErrUnprocessableEntity, err)
 	}
 
+	now := time.Now()
+
 	payload := models.TasksTag{
 		IDTasks:   request.IDTasks,
 		IDUser:    request.IDUser,
 		IDTeam:    request.IDTeam,
 		IDProject: request.IDProject,
-		CreatedAt: s.DB.NowFunc(),
+		CreatedAt: &now,
 	}
 
 	id, err := s.RepoTag.Store(c, s.DB, payload)

@@ -13,5 +13,6 @@ type Repository interface {
 	GetByTeam(c echo.Context, db *gorm.DB, teamID string) ([]taskstag.TasksTagTeam, error)
 	GetByUser(c echo.Context, db *gorm.DB, UserID string) ([]taskstag.TasksTagUser, error)
 	Store(c echo.Context, db *gorm.DB, data models.TasksTag) (int64, error)
+	Update(c echo.Context, db *gorm.DB, data models.TasksTag) (int64, error)
+	Delete(c echo.Context, db *gorm.DB, id string) (int64, error)
 }
-

@@ -14,6 +14,8 @@ type Service interface {
 	GetByUser(c echo.Context, userID string) ([]taskstag.TasksTagUser, error)
 	Create(c echo.Context, request tasks.TaskRequest) (tasks.TasksCreateResponse, error)
 	Update(c echo.Context, id string, request tasks.TaskRequest) (tasks.TasksResponse, error)
+	UpdateStatus(c echo.Context, status, id string) error
+	UpdatePriority(c echo.Context, priority, id string) error
 	Delete(c echo.Context, id string) error
 	CreateTags(c echo.Context, tags tasks.TaksTagRequest) (int64, error)
 }

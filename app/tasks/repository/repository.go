@@ -10,6 +10,8 @@ import (
 type Repository interface {
 	GetAll(c echo.Context, db *gorm.DB) ([]tasks.TasksResponse, error)
 	GetById(c echo.Context, db *gorm.DB, id string) (tasks.TasksResponse, error)
+	ChangePriority(c echo.Context, db *gorm.DB, priority, id string) error
+	ChangeStatus(c echo.Context, db *gorm.DB, status, id string) error
 	Create(c echo.Context, db *gorm.DB, data models.MTasks) (models.MTasks, error)
 	Update(c echo.Context, db *gorm.DB, data models.MTasks) (models.MTasks, error)
 	Delete(c echo.Context, db *gorm.DB, id string) error

@@ -55,7 +55,7 @@ func (r *RepositoryImpl) Create(c echo.Context, db *gorm.DB, data models.MRole) 
 		return id, err
 	}
 
-	id = data.ID
+	id = *data.ID
 
 	return id, nil
 }

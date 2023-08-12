@@ -9,7 +9,8 @@ import (
 type Repository interface {
 	GetAll(c echo.Context, db *gorm.DB) ([]models.MSchedule, error)
 	GetById(c echo.Context, db *gorm.DB, id string) (models.MSchedule, error)
-	Store(c echo.Context, db *gorm.DB, data models.MSchedule) (int64, error)
-	Update(c echo.Context, db *gorm.DB, data models.MSchedule) (int64, error)
+	GetByDate(c echo.Context, db *gorm.DB) ([]models.MSchedule, error)
+	Store(c echo.Context, db *gorm.DB, data *models.MSchedule) error
+	Update(c echo.Context, db *gorm.DB, data *models.MSchedule) (int64, error)
 	Delete(c echo.Context, db *gorm.DB, id string) (int64, error)
 }

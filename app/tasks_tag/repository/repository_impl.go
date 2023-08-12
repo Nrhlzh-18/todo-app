@@ -58,3 +58,28 @@ func (r *RepositoryImpl) Store(c echo.Context, db *gorm.DB, data models.TasksTag
 
 	return rowsAffected, nil
 }
+
+func (r *RepositoryImpl) Update(c echo.Context, db *gorm.DB, data models.TasksTag) (int64, error) {
+	result := db.Model(&data).Updates(&data)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	rowsAffected := result.RowsAffected
+	return rowsAffected, nil
+}
+
+func (r *RepositoryImpl) Delete(c echo.Context, db *gorm.DB, id string) (int64, error) {
+	var task models.TasksTag
+	if err := db.First(&task, id).Error; err != nil {
+		return 0, err
+	}
+
+	result := db.Delete(&task)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	rowsAffected := result.RowsAffected
+	return rowsAffected, nil
+}

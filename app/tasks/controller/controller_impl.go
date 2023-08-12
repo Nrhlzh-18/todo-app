@@ -99,6 +99,30 @@ func (co *ControllerImpl) Update(c echo.Context) error {
 	return res.SuccessResponse(c, http.StatusOK, "success memperbarui tasks", result)
 }
 
+func (co *ControllerImpl) UpdatePriority(c echo.Context) error {
+	id := c.Param("id")
+	priority := c.Param("priority")
+
+	err := co.Service.UpdatePriority(c, priority, id)
+	if err != nil {
+		return res.ErrorResponse(c, err)
+	}
+
+	return res.SuccessResponse(c, http.StatusOK, "success memperbarui tasks", nil)
+}
+
+func (co *ControllerImpl) UpdateStatus(c echo.Context) error {
+	id := c.Param("id")
+	status := c.Param("status")
+
+	err := co.Service.UpdateStatus(c, status, id)
+	if err != nil {
+		return res.ErrorResponse(c, err)
+	}
+
+	return res.SuccessResponse(c, http.StatusOK, "success memperbarui tasks", nil)
+}
+
 func (co *ControllerImpl) Delete(c echo.Context) error {
 	id := c.Param("id")
 
@@ -124,4 +148,3 @@ func (co *ControllerImpl) CreateTags(c echo.Context) error {
 
 	return res.SuccessResponse(c, http.StatusCreated, "success menambahkan tasks", result)
 }
-

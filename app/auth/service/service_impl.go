@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/Nrhlzh-18/todo-app/app/user"
 	"github.com/Nrhlzh-18/todo-app/app/user/repository"
@@ -9,6 +10,7 @@ import (
 	"github.com/Nrhlzh-18/todo-app/helpers"
 	res "github.com/Nrhlzh-18/todo-app/helpers/response"
 	"github.com/go-playground/validator/v10"
+	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
@@ -34,23 +36,34 @@ func NewService(
 	}
 }
 
-func (s *ServiceImpl) CheckLogin(c echo.Context, user user.UserLogin) (bool, error) {
+func (s *ServiceImpl) CheckLogin(c echo.Context, user user.UserLogin) (string, error) {
 
 	var password string
-	password = user.Password
-	result, err := s.Repository.GetByUsernamePass(c, s.DB, &user)
+	password = *user.Password
+	result, err := s.Repository.GetByUsernamePass(c, s.DB, user)
 	if err != nil {
-		return false, res.BuildError(res.ErrServerError, err)
+		return "", res.BuildError(res.ErrServerError, err)
 	}
 
 	var pwd string
-	pwd = result.PasswordHash
+	pwd = *result.PasswordHash
 
 	match, err := helpers.CheckPasswordHash(password, pwd)
 	if !match {
 		fmt.Println("Hash and Password doesn't match.")
-		return false, nil
+		return "", &res.ErrNotFound
 	}
 
-	return true, nil
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["user_id"] = result.ID
+	claims["name"] = result.Name
+	claims["admin"] = true
+	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
+	t, err := token.SignedString([]byte("secret"))
+	if err != nil {
+		return "", &res.ErrUnauthorized
+	}
+
+	return t, nil
 }

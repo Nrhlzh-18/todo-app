@@ -6,5 +6,5 @@ import (
 )
 
 type Service interface {
-	CheckLogin(c echo.Context, user user.UserLogin) (bool, error)
+	CheckLogin(c echo.Context, user user.UserLogin) (string, error)
 }

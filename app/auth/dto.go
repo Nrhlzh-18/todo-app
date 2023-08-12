@@ -8,13 +8,13 @@ type RegisterRequest struct {
 }
 
 type UserResponse struct {
-	ID        string `json:"id"`
-	Name      string `json:"name"`
-	Email     string `json:"email"`
-	Role      string `json:"role"`
-	Provider  string `json:"provider"`
-	Photo     string `json:"photo"`
-	Verified  bool   `json:"verified"`
+	ID        *string `json:"id"`
+	Name      *string `json:"name"`
+	Email     *string `json:"email"`
+	Role      *string `json:"role"`
+	Provider  *string `json:"provider"`
+	Photo     *string `json:"photo"`
+	Verified  *bool   `json:"verified"`
 	CreatedAt helpers.JsonTime
 	UpdatedAt helpers.JsonTime
 }

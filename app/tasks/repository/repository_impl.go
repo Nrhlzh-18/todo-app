@@ -32,6 +32,24 @@ func (r *RepositoryImpl) GetById(c echo.Context, db *gorm.DB, id string) (tasks.
 	return taskData, nil
 }
 
+func (r *RepositoryImpl) ChangePriority(c echo.Context, db *gorm.DB, priority, id string) error {
+	var existingData models.MTasks
+	if err := db.Model(&existingData).Where("id = ?", id).Update("priority", priority).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *RepositoryImpl) ChangeStatus(c echo.Context, db *gorm.DB, status, id string) error {
+	var existingData models.MTasks
+	if err := db.Model(&existingData).Where("id = ?", id).Update("status", status).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (r *RepositoryImpl) Create(c echo.Context, db *gorm.DB, data models.MTasks) (models.MTasks, error) {
 	if err := db.Create(&data).Error; err != nil {
 		return data, err
