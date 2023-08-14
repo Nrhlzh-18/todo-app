@@ -4,7 +4,7 @@ import (
 	"github.com/Nrhlzh-18/todo-app/app/schedule"
 	"github.com/Nrhlzh-18/todo-app/app/tasks"
 	"github.com/Nrhlzh-18/todo-app/app/user"
-	"github.com/Nrhlzh-18/todo-app/helpers"
+	"github.com/Nrhlzh-18/todo-app/util"
 )
 
 type CommentRequest struct {
@@ -22,6 +22,6 @@ type CommentResponse struct {
 	IDUser     user.UserResponse         `json:"id_user"`
 	Comment    string                    `json:"comment"`
 	IDParent   int64                     `json:"id_parent"`
-	CreatedAt  helpers.JsonTime          `json:"created_at"`
-	UpdatedAt  helpers.JsonTime          `json:"updated_at"`
+	CreatedAt  util.JsonDateTime         `json:"created_at"`
+	UpdatedAt  util.JsonDateTime         `json:"updated_at"`
 }

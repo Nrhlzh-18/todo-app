@@ -7,7 +7,7 @@ import (
 )
 
 type Service interface {
-	GetAll(c echo.Context) ([]models.MSchedule, error)
+	GetAll(c echo.Context) ([]schedule.ScheduleResponse, error)
 	GetById(c echo.Context, id string) (models.MSchedule, error)
 	GetByDate(c echo.Context) ([]models.MSchedule, error)
 	Create(c echo.Context, request schedule.ScheduleRequest) error

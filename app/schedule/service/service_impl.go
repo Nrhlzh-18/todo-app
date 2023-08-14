@@ -35,7 +35,7 @@ func NewService(
 	}
 }
 
-func (s *ServiceImpl) GetAll(c echo.Context) ([]models.MSchedule, error) {
+func (s *ServiceImpl) GetAll(c echo.Context) ([]schedule.ScheduleResponse, error) {
 	result, err := s.Repository.GetAll(c, s.DB)
 	if err != nil {
 		return result, res.BuildError(res.ErrServerError, err)
@@ -63,7 +63,6 @@ func (s *ServiceImpl) GetByDate(c echo.Context) ([]models.MSchedule, error) {
 	return result, nil
 }
 
-
 func (s *ServiceImpl) Create(c echo.Context, request schedule.ScheduleRequest) error {
 	err := s.Validate.Struct(request)
 	if err != nil {
@@ -74,11 +73,11 @@ func (s *ServiceImpl) Create(c echo.Context, request schedule.ScheduleRequest) e
 		Name:        request.Name,
 		Description: request.Description,
 		Date:        (*time.Time)(&request.Date),
-		StartTime:   (*time.Time)(&request.StartTime),
-		EndTime:     (*time.Time)(&request.EndTime),
+		StartTime:   &request.StartTime,
+		EndTime:     &request.EndTime,
 		Location:    request.Location,
 	}
-
+	
 	err = s.Repository.Store(c, s.DB, payload)
 	if err != nil {
 		return res.BuildError(res.ErrServerError, err)
@@ -102,8 +101,8 @@ func (s *ServiceImpl) Update(c echo.Context, id string, request schedule.Schedul
 		Name:        request.Name,
 		Description: request.Description,
 		Date:        (*time.Time)(&request.Date),
-		StartTime:   (*time.Time)(&request.StartTime),
-		EndTime:     (*time.Time)(&request.EndTime),
+		StartTime:   &request.StartTime,
+		EndTime:     &request.EndTime,
 		Location:    request.Location,
 	}
 

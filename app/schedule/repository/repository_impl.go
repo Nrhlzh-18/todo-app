@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Nrhlzh-18/todo-app/app/schedule"
 	"github.com/Nrhlzh-18/todo-app/models"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -16,8 +17,8 @@ func NewRepository() Repository {
 	return &RepositoryImpl{}
 }
 
-func (r *RepositoryImpl) GetAll(c echo.Context, db *gorm.DB) ([]models.MSchedule, error) {
-	var schedule []models.MSchedule
+func (r *RepositoryImpl) GetAll(c echo.Context, db *gorm.DB) ([]schedule.ScheduleResponse, error) {
+	var schedule []schedule.ScheduleResponse
 	if err := db.Find(&schedule).Error; err != nil {
 		return schedule, err
 	}
@@ -48,13 +49,13 @@ func (r *RepositoryImpl) GetByDate(c echo.Context, db *gorm.DB) ([]models.MSched
 }
 
 func (r *RepositoryImpl) Store(c echo.Context, db *gorm.DB, data *models.MSchedule) error {
-	fmt.Println(data)
+	fmt.Println("data", *data)
 	if err := db.Create(&data).Error; err != nil {
 		return err
 	}
-
 	return nil
 }
+
 
 func (r *RepositoryImpl) Update(c echo.Context, db *gorm.DB, data *models.MSchedule) (int64, error) {
 	result := db.Model(&data).Updates(data)

@@ -8,7 +8,7 @@ type MUser struct {
 	Email        *string    `json:"email" gorm:"unique;type:varchar(225);not null;"`
 	Username     *string    `json:"username" gorm:"unique;type:varchar(225);not null"`
 	Password     *string    `json:"password" gorm:"type:varchar(225);not null"`
-	PasswordHash *string    `gorm:"unique;type:varchar(225);not null;size:255"`
+	PasswordHash *string    `gorm:"unique;type:varchar(225);not null"`
 	CreatedAt    *time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
 	UpdatedAt    *time.Time `json:"updated_at" gorm:"default:CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"`
 }

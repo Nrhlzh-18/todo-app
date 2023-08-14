@@ -53,6 +53,7 @@ func (co *ControllerImpl) Create(c echo.Context) error {
 
 	return res.SuccessResponse(c, http.StatusCreated, "success menambahkan schedule", nil)
 }
+ 
 
 func (co *ControllerImpl) Update(c echo.Context) error {
 	var data schedule.ScheduleRequest

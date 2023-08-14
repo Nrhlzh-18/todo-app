@@ -2,8 +2,8 @@ package handler
 
 import (
 	"github.com/Nrhlzh-18/todo-app/app/schedule/controller"
-	"github.com/Nrhlzh-18/todo-app/app/schedule/service"
 	"github.com/Nrhlzh-18/todo-app/app/schedule/repository"
+	"github.com/Nrhlzh-18/todo-app/app/schedule/service"
 	repo_user "github.com/Nrhlzh-18/todo-app/app/user/repository"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"

@@ -1,6 +1,8 @@
 package auth
 
-import "github.com/Nrhlzh-18/todo-app/helpers"
+import (
+	"github.com/Nrhlzh-18/todo-app/util"
+)
 
 type RegisterRequest struct {
 	Access_token string
@@ -15,6 +17,6 @@ type UserResponse struct {
 	Provider  *string `json:"provider"`
 	Photo     *string `json:"photo"`
 	Verified  *bool   `json:"verified"`
-	CreatedAt helpers.JsonTime
-	UpdatedAt helpers.JsonTime
+	CreatedAt util.JsonDateTime
+	UpdatedAt util.JsonDateTime
 }

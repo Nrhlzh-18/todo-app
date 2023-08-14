@@ -1,26 +1,26 @@
 package tasks
 
 import (
-	"github.com/Nrhlzh-18/todo-app/helpers"
+	"github.com/Nrhlzh-18/todo-app/util"
 )
 
 type TaskRequest struct {
-	Name        *string           `json:"name" validate:"required"`
-	Description *string           `json:"description"`
-	DueDate     helpers.JsonDate `json:"due_date" validate:"required"`
-	Priority    *string           `json:"priority"`
-	Status      *string           `json:"status" validate:"required"`
-	CreatedBy   *string            `json:"created_by"`
-	UpdatedBy   *string            `json:"updated_by"`
+	Name        *string       `json:"name" validate:"required"`
+	Description *string       `json:"description"`
+	DueDate     util.JsonDate `json:"due_date" validate:"required"`
+	Priority    *string       `json:"priority"`
+	Status      *string       `json:"status" validate:"required"`
+	CreatedBy   *string       `json:"created_by"`
+	UpdatedBy   *string       `json:"updated_by"`
 }
 
 type TasksResponse struct {
-	ID          *int64           `json:"id"`
-	Name        *string           `json:"name"`
-	Description *string           `json:"description"`
-	DueDate     helpers.JsonDate `json:"due_date"`
-	Priority    *string           `json:"priority"`
-	Status      *string           `json:"status"`
+	ID          *int64        `json:"id"`
+	Name        *string       `json:"name"`
+	Description *string       `json:"description"`
+	DueDate     util.JsonDate `json:"due_date"`
+	Priority    *string       `json:"priority"`
+	Status      *string       `json:"status"`
 }
 
 func (TasksResponse) TableName() string {
